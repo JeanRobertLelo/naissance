@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: ms-naissance
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate  # Les champs de mes entités correspondent à ceux des tables en BDD
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: false
+    validate-on-migrate: true
+
+server:
+  servlet:
+    context-path: /api
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+    display-request-duration: true
+    doc-expansion: none
+  packages-to-scan:
+    - jr.lelo.bnaiss.web
+  paths-to-match:
+    - /api/**
+
+logging:
+  level:
+    org.flywaydb: DEBUG
