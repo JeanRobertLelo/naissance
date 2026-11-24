@@ -34,3 +34,4 @@ springdoc:
 logging:
   level:
     org.flywaydb: DEBUG
+    org.springframework.security: TRACE

@@ -1,11 +1,12 @@
 package fr.jrlelo.bnaiss.security.authentication;
 
-import fr.jrlelo.bnaiss.profiles.*;
+import fr.jrlelo.bnaiss.profiles.ProfilReponseDTO;
+import fr.jrlelo.bnaiss.profiles.Profile;
+import fr.jrlelo.bnaiss.profiles.ProfileRepository;
+import fr.jrlelo.bnaiss.profiles.ProfilesMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -14,14 +15,14 @@ public class AuthenticationService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final ProfilesMapper profilesMapper;
 
-    public ProfilReponseDTO signup(ProfileDTO profileDTO) {
-        profileRepository.findByEmail(profileDTO.getEmail())
+    public ProfilReponseDTO signup(SignupRequestDTO signupRequestDTO) {
+        profileRepository.findByEmail(signupRequestDTO.email())
                 .ifPresent(existingProfile -> {
                     throw new EmailAlreadyExistsException();
                 });
 
-        Profile profile = profilesMapper.dtoToEntity(profileDTO);
-        profile.setPassword(passwordEncoder.encode(profileDTO.getPassword()));
+        Profile profile = profilesMapper.dtoToEntity(signupRequestDTO);
+        profile.setPassword(passwordEncoder.encode(signupRequestDTO.password()));
         profile.setActive(false);
 
         Profile savedProfile = profileRepository.save(profile);

@@ -1,6 +1,7 @@
 package fr.jrlelo.bnaiss.security;
 
 import fr.jrlelo.bnaiss.profiles.ProfilesService;
+import jakarta.servlet.DispatcherType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,14 +10,10 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.http.HttpMethod.POST;
@@ -39,22 +36,23 @@ public class ApplicationSecurity {
     // Pas besoin de mémoriser, chaque appel est une nouvelle session
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http
-            .cors(Customizer.withDefaults())
-            .csrf(AbstractHttpConfigurer::disable)
-            .headers(AbstractHttpConfigurer::disable)
-            .authorizeHttpRequests(
-                    configurations ->
-                            configurations
-                                    .requestMatchers(POST,"/activation").permitAll()
-                                    .requestMatchers(POST,"/sign-up").permitAll()
-                                    .requestMatchers(POST,"/sign-in").permitAll()
-                                    .anyRequest().authenticated()
-            )
-            .sessionManagement(
-                    session ->
-                            session.sessionCreationPolicy(STATELESS)
-            )
-            .build();
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(
+                        configurations ->
+                                configurations
+                                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
+                                        .requestMatchers(POST, "/activation").permitAll()
+                                        .requestMatchers(POST, "/sign-up").permitAll()
+                                        .requestMatchers(POST, "/sign-in").permitAll()
+                                        .anyRequest().authenticated()
+                )
+                .sessionManagement(
+                        session ->
+                                session.sessionCreationPolicy(STATELESS)
+                )
+                .build();
     }
 
     //Scenario d'authentification
@@ -66,7 +64,7 @@ public class ApplicationSecurity {
 
 
     @Bean
-    AuthenticationManager authenticationManager( AuthenticationProvider authenticationProvider) {
+    AuthenticationManager authenticationManager(AuthenticationProvider authenticationProvider) {
         return new ProviderManager(authenticationProvider);
     }
 

@@ -1,5 +1,6 @@
 package fr.jrlelo.bnaiss.profiles;
 
+import fr.jrlelo.bnaiss.security.authentication.SignupRequestDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,18 @@ public class ProfilesMapper {
         return entity;
     }
 
+    public Profile dtoToEntity(SignupRequestDTO dto) {
+        Profile entity = new Profile();
+        entity.setPassword(dto.password());
+        entity.setPhone(dto.phone());
+        entity.setEmail(dto.email());
+        entity.setFirstName(dto.firstName());
+        entity.setLastName(dto.lastName());
+        return entity;
+    }
+
     public ProfileDTO entityToDto(Profile entity) {
-        ProfileDTO profileDTO =  ProfileDTO
+        ProfileDTO profileDTO = ProfileDTO
                 .builder()
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
