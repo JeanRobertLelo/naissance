@@ -31,6 +31,12 @@ springdoc:
   paths-to-match:
     - /api/**
 
+
+app:
+  mailpit:
+    base-url: ${MAILPIT_BASE_URL:http://localhost:8025}
+    from: ${MAILPIT_FROM:no-reply@ms-naissance.test}
+
 logging:
   level:
     org.flywaydb: DEBUG
