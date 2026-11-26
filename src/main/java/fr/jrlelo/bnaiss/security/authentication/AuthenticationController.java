@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
@@ -17,6 +19,13 @@ public class AuthenticationController {
     public ResponseEntity<ProfilReponseDTO> signup(
             @RequestBody SignupRequestDTO signupRequestDTO) {
         ProfilReponseDTO savedProfile = authenticationService.signup(signupRequestDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedProfile);
+    }
+
+    @PostMapping(value = "/activate", consumes = "application/json")
+    public ResponseEntity<ProfilReponseDTO> activateAccount(
+            @RequestBody Map<String, String> signupRequesParams) {
+        ProfilReponseDTO savedProfile = authenticationService.active(signupRequesParams);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProfile);
     }
 }

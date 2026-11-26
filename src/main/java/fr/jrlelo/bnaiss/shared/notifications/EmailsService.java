@@ -1,4 +1,4 @@
-package fr.jrlelo.bnaiss.shared.activations.notifications;
+package fr.jrlelo.bnaiss.shared.notifications;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

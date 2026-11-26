@@ -1,4 +1,4 @@
-package fr.jrlelo.bnaiss.shared.activations.notifications;
+package fr.jrlelo.bnaiss.shared.notifications;
 
 public record ActivationCodeCreated(String email, String code) {
 }

@@ -5,7 +5,7 @@ import fr.jrlelo.bnaiss.profiles.Profile;
 import fr.jrlelo.bnaiss.profiles.ProfileRepository;
 import fr.jrlelo.bnaiss.profiles.ProfilesMapper;
 import fr.jrlelo.bnaiss.shared.activations.ActivationService;
-import fr.jrlelo.bnaiss.shared.activations.notifications.EmailsService;
+import fr.jrlelo.bnaiss.shared.notifications.EmailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,10 +22,14 @@ public class AuthenticationService {
     private final EmailsService emailsService;
 
     public ProfilReponseDTO signup(SignupRequestDTO signupRequestDTO) {
-        profileRepository.findByEmail(signupRequestDTO.email())
+        /*profileRepository.findByEmail(signupRequestDTO.email())
                 .ifPresent(existingProfile -> {
                     throw new EmailAlreadyExistsException();
-                });
+                });*/
+
+        if (profileRepository.existsByEmail(signupRequestDTO.email())) {
+            throw new EmailAlreadyExistsException();
+        }
 
         Profile profile = profilesMapper.dtoToEntity(signupRequestDTO);
         profile.setPassword(passwordEncoder.encode(signupRequestDTO.password()));
@@ -51,5 +55,13 @@ public class AuthenticationService {
                 savedProfile.isActive()
         );
 
+    }
+
+   
+    public ProfilReponseDTO active(Map<String, String> signupRequesParams) {
+        Profile profileInDatabase = this.activationService.validate(signupRequesParams);
+        profileInDatabase.setActive(true);
+        Profile profileUpdated = this.profileRepository.save(profileInDatabase);
+        return profilesMapper.entityToProfileResponseDTO(profileUpdated);
     }
 }

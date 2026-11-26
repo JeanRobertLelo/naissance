@@ -1,7 +1,7 @@
 package fr.jrlelo.bnaiss.configurations;
 
-import fr.jrlelo.bnaiss.shared.activations.notifications.MailPitClient;
-import fr.jrlelo.bnaiss.shared.activations.notifications.MailpitProperties;
+import fr.jrlelo.bnaiss.shared.notifications.MailPitClient;
+import fr.jrlelo.bnaiss.shared.notifications.MailpitProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

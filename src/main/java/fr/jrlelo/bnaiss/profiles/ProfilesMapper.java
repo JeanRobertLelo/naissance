@@ -40,4 +40,15 @@ public class ProfilesMapper {
                 .build();
         return profileDTO;
     }
+
+    public ProfilReponseDTO entityToProfileResponseDTO(Profile entity) {
+        return new ProfilReponseDTO(
+                entity.getId(),
+                entity.getFirstName(),
+                entity.getLastName(),
+                entity.getEmail(),
+                entity.getPhone(),
+                entity.isActive()
+        );
+    }
 }

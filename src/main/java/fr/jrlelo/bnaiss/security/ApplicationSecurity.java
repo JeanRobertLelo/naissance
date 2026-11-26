@@ -43,7 +43,7 @@ public class ApplicationSecurity {
                         configurations ->
                                 configurations
                                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                                        .requestMatchers(POST, "/activation").permitAll()
+                                        .requestMatchers(POST, "/activate").permitAll()
                                         .requestMatchers(POST, "/sign-up").permitAll()
                                         .requestMatchers(POST, "/sign-in").permitAll()
                                         .anyRequest().authenticated()

@@ -1,4 +1,4 @@
-package fr.jrlelo.bnaiss.shared.activations.notifications;
+package fr.jrlelo.bnaiss.shared.notifications;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.PostExchange;
